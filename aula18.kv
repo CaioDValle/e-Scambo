@@ -1,0 +1,44 @@
+<PrincipalScreen>
+    MDBoxLayout:
+       orientation: 'horizontal'
+       MDNavigationRail:
+          anchor: 'bottom'
+          elevation: 1
+          type: 'selected'
+
+          MDNavigationRailMenuButton:
+            icon: 'menu'
+
+          MDNavigationFabButton:
+            icon: 'home'
+            text: 'Início' 
+
+          MDNavigationRailItem:
+            icon: 'inbox-outline'
+            text: 'Caixa de Entrada'
+            badge_icon: 'numeric-4'
+            badge_icon_color: 0,0,1,1
+            badge_bg_color: 0, 1, 1, 1
+            badge_font_size: '20dp'
+
+          MDNavigationRailItem:
+            icon: 'send'
+            text: 'Enviar mensagem'
+            badge_icon: 'numeric-7'
+
+          MDNavigationRailItem:
+            icon: 'heart'
+            text: 'Favoritos'
+            badge_icon: 'numeric-3'
+
+          MDNavigationRailItem:
+            icon: 'account-circle'
+            text: 'Perfil'
+            
+          MDNavigationRailItem:
+            icon: 'cog'
+            text: 'Configurações'
+
+        MDLabel:
+            text: 'Teste'
+            halign: 'center'

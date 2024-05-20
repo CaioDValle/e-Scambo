@@ -127,7 +127,7 @@
             font_name: "BPoppins"
             on_release:
                 root.manager.transition.direction = "left"
-                root.manager.current = "login"
+                root.manager.current = "principal"
             canvas.before:
                 Color:
                     rgb: rgba(52, 0, 231, 255)
@@ -324,3 +324,5 @@
             on_release:
                 root.manager.transition.direction = "left"
                 root.manager.current = "login"
+<PrincipalScreen>
+        name= 'principal'
