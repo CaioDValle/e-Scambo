@@ -20,6 +20,9 @@ class CadastroScreen(Screen):
 class PrincipalScreen(Screen):
     pass
 
+class AnuncioScreen(Screen):
+    pass
+
 class eScambo(MDApp):
 
     def build(self):
@@ -29,6 +32,7 @@ class eScambo(MDApp):
         sm.add_widget(LoginScreen(name='login'))
         sm.add_widget(CadastroScreen(name='cadastro'))
         sm.add_widget(PrincipalScreen(name='principal'))
+        sm.add_widget(AnuncioScreen(name='anuncio'))
         return sm
 
 

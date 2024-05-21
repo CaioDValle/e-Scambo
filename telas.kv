@@ -322,7 +322,223 @@
             pos_hint: {"center_x": .79, "center_y": .04}
             color: rgba(52, 0, 231, 255)
             on_release:
-                root.manager.transition.direction = "left"
+                root.manager.transition.direction = "left"   
                 root.manager.current = "login"
-<PrincipalScreen>
-        name= 'principal'
+    
+<PrincipalScreen>:
+    MDBoxLayout: 
+        orientation: 'vertical'
+
+    MDBottomNavigation:
+        panel_color: 1, 0, 1, 1
+
+        MDBottomNavigationItem:
+            name: 'Screen1'
+            text: 'Início'
+            icon: 'home'
+
+        MDBottomNavigationItem:
+            name: 'Screen2'
+            text: 'Pesquisar'
+            icon: 'magnify'
+
+        MDBottomNavigationItem:
+            name: 'Screen4'
+            text: 'Mensagens'
+            icon: 'send'
+    
+    MDBoxLayout:
+        orientation: 'vertical'
+
+        MDTopAppBar:
+            title: 'Pais, Estado'
+            md_bg_color: "#2196F3"
+            elevation: 10
+            right_action_items: [['magnify'], ['bell'], ['heart']]
+            left_action_items: [["menu", lambda x: nav_drawer.set_state('open')]]
+            md_bg_color: '#2196F3'
+            elevation: 0
+
+        MDLabel:
+            id: lbl_msg
+            text: 'teste'
+            halign: 'center'
+
+    MDNavigationDrawer:
+        id: nav_drawer
+        orientation: 'vertical'
+        
+        Image:
+            source: 'images/logo1.png'
+            size_hint: None, None
+            size: '100dp', '100dp'
+        
+        MDLabel:
+            text: 'Nome do Usuario'
+            adaptive_height: True
+            halign: 'center'
+
+        MDNavigationDrawerMenu:
+
+            MDNavigationDrawerLabel:
+                text: "Mail"
+
+            MDNavigationDrawerItem:
+                icon: 'inbox-outline'
+                text: 'Caixa de Entrada'
+                right_text: '24'
+                on_press: nav_drawer.set_state('close')
+
+            MDNavigationDrawerItem:
+                icon: 'send'
+                text: 'Mensagens'
+
+            MDNavigationDrawerItem:
+                icon: 'heart'
+                text: 'Favoritos'
+
+            MDNavigationDrawerItem:
+                icon: 'trash-can'
+                text: 'Lixeira'
+
+            MDNavigationDrawerItem:
+                icon: 'cog'
+                text: 'Configurações'
+
+            MDNavigationDrawerItem:
+                icon: 'account-circle'
+                text: 'Perfil'
+
+            MDNavigationDrawerDivider:
+                color: "#4A463A"
+
+            MDNavigationDrawerItem:
+                icon: 'information'
+                text: 'Ajuda'
+                
+    MDFloatingActionButton:
+        name: 'Screen3'
+        text: 'Anunciar'
+        icon: 'plus'
+        md_bg_color: 1, 0, 1, 1
+        pos_hint: {'center_x':.87,'center_y':.2}
+        on_release:
+            root.manager.transition.direction = 'left'
+            root.manager.current = 'anuncio'
+
+<DrawerItem@MNNavigationDrawerItems>
+    icon_color: "#4A463A"
+    text_color: "#4A463A"
+    right_text_color: '#4A463A'
+    focus_color: '#B5DCFB'
+    ripple_collor: "#FDBCB5"  
+
+<AnuncioScreen>
+    name: 'anuncio'
+    MDFloatLayout:
+        md_bg_color: 1, 1, 1, 1
+        MDIconButton:
+            icon: "arrow-left"
+            pos_hint: {"center_y": .95}
+            user_font_size: "30sp"
+            theme_text_color: "Custom"
+            text_color: rgba(26, 24, 58, 255)
+            on_release:
+                root.manager.transition.direction = "right"
+                root.manager.current = "principal"
+    MDFloatLayout:
+        size_hint: .7, .07
+        pos_hint: {"center_x": .5, "center_y": .63}
+        TextInput:
+            font_name: "MPoppins"
+            size_hint_y: .75
+            pos_hint: {"center_x": .43, "center_y": .5}
+            background_color: 1, 1, 1, 0
+            foreground_color: rgba(0, 0, 0, 1)
+            cursor_color: rgba(0, 0, 59, 255)
+            font_size: "14sp"
+            cursor_width: "2sp"
+            multiline: False
+    MDFloatLayout:
+        size_hint: .7, .07
+        pos_hint: {"center_x": .5, "center_y": .56}
+        TextInput:
+            font_name: "MPoppins"
+            size_hint_y: .75
+            pos_hint: {"center_x": .43, "center_y": .5}
+            background_color: 1, 1, 1, 0
+            foreground_color: rgba(0, 0, 0, 1)
+            cursor_color: rgba(0, 0, 59, 255)
+            font_size: "14sp"
+            cursor_width: "2sp"
+            multiline: False
+    MDFloatLayout:
+        size_hint: .7, .07
+        pos_hint: {"center_x": .5, "center_y": .49}
+        TextInput:
+            font_name: "MPoppins"
+            size_hint_y: .75
+            pos_hint: {"center_x": .43, "center_y": .5}
+            background_color: 1, 1, 1, 0
+            foreground_color: rgba(0, 0, 0, 1)
+            cursor_color: rgba(0, 0, 59, 255)
+            font_size: "14sp"
+            cursor_width: "2sp"
+            multiline: False
+        
+    MDFloatLayout:
+        size_hint: .7, .07
+        pos_hint: {"center_x": .5, "center_y": .42}
+        TextInput:
+            font_name: "MPoppins"
+            size_hint_y: .75
+            pos_hint: {"center_x": .43, "center_y": .5}
+            background_color: 1, 1, 1, 0
+            foreground_color: rgba(0, 0, 0, 1)
+            text_color: 0, 0, 0
+            cursor_color: rgba(0, 0, 59, 255)
+            font_size: "14sp"
+            cursor_width: "2sp"
+            multiline: False    
+        
+    MDFloatLayout:
+        pos_hint: {"center_x": .45, "center_y": 0}
+        size_hint_y: .03
+        md_bg_color: rgba(178, 178, 178, 255)
+        
+    MDFloatLayout:
+        size_hint: .7, .07
+        pos_hint: {"center_x": .5, "center_y": .35}
+        TextInput:  
+            font_name: "MPoppins"
+            size_hint_y: .75
+            pos_hint: {"center_x": .43, "center_y": .5}
+            background_color: 1, 1, 1, 0
+            foreground_color: rgba(1, 0, 1, 1)
+            text_color: 0, 0, 0
+            cursor_color: rgba(0, 0, 59, 255)
+            font_size: "14sp"
+            cursor_width: "2sp"
+            multiline: False
+        
+    MDFloatLayout:
+        pos_hint: {"center_x": .45, "center_y": 0}
+        size_hint_y: .03
+        md_bg_color: rgba(178, 178, 178, 255)
+        
+    Button:
+        text: "ANUNCIAR"
+        size_hint: .66, .065
+        pos_hint: {"center_x": .5, "center_y": .26}
+        background: 0, 0, 0, 0
+        font_name: "BPoppins"
+        on_release:
+            root.manager.transition.direction = "left"
+            root.manager.current = "principal"
+        canvas.before:
+            Color:
+                rgb: rgba(52, 0, 231, 255)
+            RoundedRectangle:
+                size: self.size
+                pos: self.pos
+                radius: [5]
