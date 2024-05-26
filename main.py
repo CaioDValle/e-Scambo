@@ -5,8 +5,8 @@ from kivy.core.text import LabelBase
 from kivy.core.window import Window
 Window.size = (310, 580)
 
-LabelBase.register(name='MPoppins', fn_regular=r"C:\Users\aluno.sesipaulista\Downloads\Poppins\Poppins-Medium.ttf")
-LabelBase.register(name='BPoppins', fn_regular=r"C:\Users\aluno.sesipaulista\Downloads\Poppins\Poppins-Semibold.ttf")
+LabelBase.register(name='MPoppins', fn_regular=r"C:\Users\Micro\Downloads\Poppins\Poppins-Medium.ttf")
+LabelBase.register(name='BPoppins', fn_regular=r"C:\Users\Micro\Downloads\Poppins\Poppins-Semibold.ttf")
 
 class InicioScreen(Screen):
     pass
@@ -20,6 +20,9 @@ class CadastroScreen(Screen):
 class PrincipalScreen(Screen):
     pass
 
+class AnuncioScreen(Screen):
+    pass
+
 class eScambo(MDApp):
 
     def build(self):
@@ -29,6 +32,7 @@ class eScambo(MDApp):
         sm.add_widget(LoginScreen(name='login'))
         sm.add_widget(CadastroScreen(name='cadastro'))
         sm.add_widget(PrincipalScreen(name='principal'))
+        sm.add_widget(AnuncioScreen(name='anuncio'))
         return sm
 
 

@@ -322,7 +322,283 @@
             pos_hint: {"center_x": .79, "center_y": .04}
             color: rgba(52, 0, 231, 255)
             on_release:
-                root.manager.transition.direction = "left"
+                root.manager.transition.direction = "left"   
                 root.manager.current = "login"
-<PrincipalScreen>
-        name= 'principal'
+
+<PrincipalScreen>:
+    MDBoxLayout:
+        orientation: 'vertical'
+
+    MDBottomNavigation:
+        panel_color: 1, 0, 1, 1
+        mode: 'end'
+
+        MDBottomNavigationItem:
+            name: 'Screen1'
+            text: 'Início'
+            icon: 'home'
+
+        MDBottomNavigationItem:
+            name: 'Screen2'
+            text: 'Pesquisar'
+            icon: 'magnify'
+
+        MDBottomNavigationItem:
+            name: 'Screen4'
+            text: 'Mensagens'
+            icon: 'send'
+
+    MDBoxLayout:
+        orientation: 'vertical'
+
+        MDTopAppBar:
+            title: 'Pais, Estado'
+            md_bg_color: "#2196F3"
+            elevation: 10
+            right_action_items: [['magnify'], ['bell'], ['heart']]
+            left_action_items: [["menu", lambda x: nav_drawer.set_state('open')]]
+            elevation: 0
+
+        MDLabel:
+            text: 'Anúncio para Recife'
+            valign: 'top'
+            size_hint: (1, .45)
+            halign: 'center'
+            font_style: 'H5'
+            theme_text_color: 'Primary'
+
+        MDBoxLayout:
+            orientation: 'vertical'
+            padding: dp(10)
+
+            GridLayout:
+                cols: 4
+                spacing: dp(10)
+                padding: [dp(10), dp(10)]
+
+                MDBoxLayout:
+                    orientation: 'vertical'
+                    md_bg_color: 0.8, 0.8, 0.8, 1
+                    size_hint: None, None
+                    size: dp(60), dp(60)
+                    pos_hint: {'center_x': 0.5, 'center_y': 1}
+                    MDIconButton:
+                        icon: 'gas-station'
+                        user_font_size: '24sp'
+                        theme_text_color: 'Custom'
+                        text_color: 0, 0, 0, 1
+
+                MDBoxLayout:
+                    orientation: 'vertical'
+                    md_bg_color: 0.8, 0.8, 0.8, 1
+                    size_hint: None, None
+                    size: dp(60), dp(60)
+                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                    radius: [20,]
+                    MDIconButton:
+                        icon: 'bookshelf'
+                        user_font_size: '24sp'
+                        theme_text_color: 'Custom'
+                        text_color: 0, 0, 0, 1
+
+                MDBoxLayout:
+                    orientation: 'vertical'
+                    md_bg_color: 0.8, 0.8, 0.8, 1
+                    size_hint: None, None
+                    size: dp(60), dp(60)
+                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                    MDIconButton:
+                        icon: 'food-fork-drink'
+                        user_font_size: '24sp'
+                        theme_text_color: 'Custom'
+                        text_color: 0, 0, 0, 1
+
+                MDBoxLayout:
+                    orientation: 'vertical'
+                    md_bg_color: 0.8, 0.8, 0.8, 1
+                    size_hint: None, None
+                    size: dp(60), dp(60)
+                    pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                    MDIconButton:
+                        icon: 'steering'
+                        user_font_size: '24sp'
+                        theme_text_color: 'Custom'
+                        text_color: 0, 0, 0, 1
+
+    MDNavigationDrawer:
+        id: nav_drawer
+        orientation: 'vertical'
+
+        Image:
+            source: 'images/logo1.png'
+            size_hint: None, None
+            size: '100dp', '100dp'
+
+        MDLabel:
+            text: 'Nome do Usuario'
+            adaptive_height: True
+            halign: 'center'
+
+        MDNavigationDrawerMenu:
+            MDNavigationDrawerLabel:
+                text: "Menu"
+
+            MDNavigationDrawerItem:
+                icon: 'account-circle'
+                text: 'Perfil'
+                on_press: nav_drawer.set_state('close')
+
+            MDNavigationDrawerItem:
+                icon: 'cog'
+                text: 'Configurações'
+                on_press: nav_drawer.set_state('close')
+
+            MDNavigationDrawerItem:
+                icon: 'pencil'
+                text: 'Rascunhos'
+                on_press: nav_drawer.set_state('close')
+
+            MDNavigationDrawerDivider:
+                color: "#4A463A"
+
+            MDNavigationDrawerItem:
+                icon: 'information'
+                text: 'Ajuda'
+                on_press: nav_drawer.set_state('close')
+
+    MDFloatingActionButton:
+        name: 'Screen3'
+        icon: 'plus'
+        md_bg_color: 1, 0, 1, 1
+        pos_hint: {'center_x': .87, 'center_y': .2}
+        on_release:
+            root.manager.transition.direction = 'left'
+            root.manager.current = 'anuncio'
+
+ 
+<AnuncioScreen>
+    name: 'anuncio'
+    MDFloatLayout:
+        md_bg_color: 1, 1, 1, 1
+        
+        MDIconButton:
+            icon: "arrow-left"
+            pos_hint: {"center_y": .95}
+            user_font_size: "30sp"
+            theme_text_color: "Custom"
+            text_color: rgba(26, 24, 58, 255)
+            on_release:
+                root.manager.transition.direction = "right"
+                root.manager.current = "principal"
+
+        MDFloatLayout:
+            size_hint: .8, .08
+            pos_hint: {"center_x": .5, "center_y": .78}
+            MDLabel:
+                text: "Informações"
+                font_name: "MPoppins"
+                pos_hint: {"center_x": .5, "center_y": 1.2}
+                halign: "center"
+            TextInput:
+                font_name: "MPoppins"
+                size_hint: 1, .75
+                pos_hint: {"center_x": .5, "center_y": .5}
+                background_color: 1, 1, 1, 1
+                foreground_color: rgba(0, 0, 0, 1)
+                cursor_color: rgba(0, 0, 59, 255)
+                font_size: "14sp"
+                cursor_width: "2sp"
+                multiline: False
+
+        MDFloatLayout:
+            size_hint: .8, .08
+            pos_hint: {"center_x": .5, "center_y": .67}
+            MDLabel:
+                text: "Experiências"
+                font_name: "MPoppins"
+                pos_hint: {"center_x": .5, "center_y": 1.2}
+                halign: "center"
+            TextInput:
+                font_name: "MPoppins"
+                size_hint: 1, .75
+                pos_hint: {"center_x": .5, "center_y": .5}
+                background_color: 1, 1, 1, 1
+                foreground_color: rgba(0, 0, 0, 1)
+                cursor_color: rgba(0, 0, 59, 255)
+                font_size: "14sp"
+                cursor_width: "2sp"
+                multiline: False
+
+        MDFloatLayout:
+            size_hint: .8, .08
+            pos_hint: {"center_x": .5, "center_y": .56}
+            MDLabel:
+                text: "Opcional: Formação Acadêmica"
+                font_name: "MPoppins"
+                pos_hint: {"center_x": .5, "center_y": 1.2}
+                halign: "center"
+            TextInput:
+                font_name: "MPoppins"
+                size_hint: 1, .75
+                pos_hint: {"center_x": .5, "center_y": .5}
+                background_color: 1, 1, 1, 1
+                foreground_color: rgba(0, 0, 0, 1)
+                cursor_color: rgba(0, 0, 59, 255)
+                font_size: "14sp"
+                cursor_width: "2sp"
+                multiline: False
+
+        MDFloatLayout:
+            size_hint: .8, .08
+            pos_hint: {"center_x": .5, "center_y": .45}
+            MDLabel:
+                text: "Anexar Arquivo"
+                font_name: "MPoppins"
+                pos_hint: {"center_x": .5, "center_y": 1.2}
+                halign: "center"
+            TextInput:
+                font_name: "MPoppins"
+                size_hint: 1, .75
+                pos_hint: {"center_x": .5, "center_y": .5}
+                background_color: 1, 1, 1, 1
+                foreground_color: rgba(0, 0, 0, 1)
+                cursor_color: rgba(0, 0, 59, 255)
+                font_size: "14sp"
+                cursor_width: "2sp"
+                multiline: False
+
+        MDFloatLayout:
+            size_hint: .8, .08
+            pos_hint: {"center_x": .5, "center_y": .34}
+            MDLabel:
+                text: "Portfolio"
+                font_name: "MPoppins"
+                pos_hint: {"center_x": .5, "center_y": 1.2}
+                halign: "center"
+            TextInput:
+                font_name: "MPoppins"
+                size_hint: 1, .75
+                pos_hint: {"center_x": .5, "center_y": .5}
+                background_color: 1, 1, 1, 1
+                foreground_color: rgba(0, 0, 0, 1)
+                cursor_color: rgba(0, 0, 59, 255)
+                font_size: "14sp"
+                cursor_width: "2sp"
+                multiline: False
+        
+    Button:
+        text: "ANUNCIAR"
+        size_hint: .66, .065
+        pos_hint: {"center_x": .5, "center_y": .22}
+        background: 0, 0, 0, 0
+        font_name: "BPoppins"
+        on_release:
+            root.manager.transition.direction = "left"
+            root.manager.current = "principal"
+        canvas.before:
+            Color:
+                rgb: rgba(52, 0, 231, 255)
+            RoundedRectangle:
+                size: self.size
+                pos: self.pos
+                radius: [5]
