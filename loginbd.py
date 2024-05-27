@@ -1,5 +1,0 @@
-from firebase import firebase
-
-
-
-
