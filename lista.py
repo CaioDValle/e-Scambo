@@ -1699,7 +1699,7 @@ md_icons = {
     "cellphone-cog": "\U000F0951",
     "cellphone-dock": "\U000F011F",
     "cellphone-information": "\U000F0F41",
-    "cellphone-key": "\U000  F094E",
+    "cellphone-key": "\U000F094E",
     "cellphone-link": "\U000F0121",
     "cellphone-link-off": "\U000F0122",
     "cellphone-lock": "\U000F094F",
