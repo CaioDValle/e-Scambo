@@ -1,14 +1,18 @@
 <InicioScreen>:
     name: 'inicio'
+
     MDFloatLayout:
         md_bg_color: 1, 1, 1, 1
+
         Image:
             source: "images/logo1.png"
             pos_hint: {"center_x": .18, "center_y": .95}
+
         Image:
             source: "images/troca.jpg"
             size_hint: 1.0, 1.0
             pos_hint: {'center_x': .5, 'center_y': .65}
+
         MDLabel:
             text: "O L Á !"
             font_name: "BPoppins"
@@ -16,6 +20,7 @@
             pos_hint: {'center_y': .38}
             halign: "center"
             color: rgba(34, 34, 34, 255)
+
         MDLabel:
             text: "Aqui sua habilidade é importante"
             font_name: "MPoppins"
@@ -24,6 +29,7 @@
             pos_hint: {'center_x': .5, 'center_y': .3}
             halign: "center"
             color: rgba(127, 127, 127, 255)
+
         Button:
             text: "LOGIN"
             size_hint: .66, .065
@@ -40,6 +46,7 @@
                     size: self.size
                     pos: self.pos
                     radius: [5]
+
         Button:
             text: "Cadastre-se"
             size_hint: .66, .065
@@ -59,8 +66,10 @@
 
 <LoginScreen>:
     name: "login"
+
     MDFloatLayout:
         md_bg_color: 1, 1, 1, 1
+
         MDIconButton:
             icon: "arrow-left"
             pos_hint: {"center_y": .95}
@@ -70,22 +79,27 @@
             on_release:
                 root.manager.transition.direction = "right"
                 root.manager.current = "inicio"
+
         MDLabel:
             text: "B E M V I N D O !"
             font_name: "BPoppins"
             font_size: "26sp"
             pos_hint: {'center_x': .6, 'center_y': .85}
             color: rgba(0, 0, 59, 255)
+
         MDLabel:
             text: "Faça o Login Para Continuar"
             font_name: "MPoppins"
             font_size: "18sp"
             pos_hint: {'center_x': .6, 'center_y': .79}
             color: rgba(135, 135, 193, 255)
+
         MDFloatLayout:
             size_hint: .7, .07
             pos_hint: {"center_x": .5, "center_y": .63}
+
             TextInput:
+                id: email_input
                 hint_text: "Email"
                 font_name: "MPoppins"
                 size_hint_y: .75
@@ -96,14 +110,18 @@
                 font_size: "14sp"
                 cursor_width: "2sp"
                 multiline: False
+
             MDFloatLayout:
                 pos_hint: {"center_x": .45, "center_y": 0}
                 size_hint_y: .03
                 md_bg_color: rgba(178, 178, 178, 255)
+
         MDFloatLayout:
             size_hint: .7, .07
             pos_hint: {"center_x": .5, "center_y": .55}
+
             TextInput:
+                id: senha_input
                 hint_text: "Senha"
                 font_name: "MPoppins"
                 size_hint_y: .75
@@ -115,10 +133,12 @@
                 cursor_width: "2sp"
                 multiline: False
                 password: True
+
             MDFloatLayout:
                 pos_hint: {"center_x": .45, "center_y": 0}
                 size_hint_y: .03
                 md_bg_color: rgba(178, 178, 178, 255)
+
         Button:
             text: "LOGIN"
             size_hint: .66, .065
@@ -126,8 +146,8 @@
             background: 0, 0, 0, 0
             font_name: "BPoppins"
             on_release:
-                root.manager.transition.direction = "left"
-                root.manager.current = "principal"
+                root.fazer_login()
+
             
             canvas.before:
                 Color:
@@ -136,12 +156,14 @@
                     size: self.size
                     pos: self.pos
                     radius: [5]
+
         MDTextButton:
             text: "Esqueceu a senha?"
             pos_hint: {"center_x": .5, "center_y": .28}
             color: rgba(68, 78, 132, 255)
             font_size: "12sp"
             font_name: "BPoppins"
+
         MDLabel:
             text: "ou"
             color: rgba(52, 0, 231, 255)
@@ -149,14 +171,17 @@
             font_size: "13sp"
             font_name: "BPoppins"
             halign: "center"
+
         MDFloatLayout:
             md_bg_color: rgba(178, 178, 178, 255)
             size_hint: .3, .002
             pos_hint: {"center_x": .3, "center_y": .218}
+
         MDFloatLayout:
             md_bg_color: rgba(178, 178, 178, 255)
             size_hint: .3, .002
             pos_hint: {"center_x": .7, "center_y": .218}
+
         MDLabel:
             text: "Faça o login com:"
             font_name: "BPoppins"
@@ -164,6 +189,7 @@
             halign: "center"
             pos_hint: {"center_y": .16}
             color: rgba(135, 133, 193, 255)
+
         MDGridLayout:
             cols: 3
             size_hint: .4 , .2
@@ -175,12 +201,14 @@
                 source: "images/face.png"
             Image:
                 source: "images/linke.png"
+
         MDLabel:
             text: "Não tem uma conta?"
             font_name: "BPoppins"
             font_size: "11sp"
             pos_hint: {"center_x": .68, "center_y": .04}
             color: rgba(135, 133, 193, 255)
+
         MDTextButton:
             text: "Cadastre-se"
             font_name: "BPoppins"
@@ -192,126 +220,139 @@
                 root.manager.current = "cadastro"
 
 <CadastroScreen>:
-    name: "cadastro"
+    name: 'cadastro'
+
     MDFloatLayout:
         md_bg_color: 1, 1, 1, 1
+
         MDIconButton:
             icon: "arrow-left"
             pos_hint: {"center_y": .95}
             user_font_size: "30sp"
             theme_text_color: "Custom"
-            text_color: rgba(26, 24, 58, 255)
+            text_color: 26/255, 24/255, 58/255, 1
             on_release:
                 root.manager.transition.direction = "right"
                 root.manager.current = "inicio"
+
         MDLabel:
             text: "O I !"
             font_name: "BPoppins"
             font_size: "26sp"
             pos_hint: {'center_x': .6, 'center_y': .87}
-            color: rgba (0, 0, 59, 255)
+            color: 0, 0, 59/255, 1
+
         MDLabel:
             text: "Crie uma conta nova"
             font_name: "MPoppins"
             font_size: "18sp"
             pos_hint: {'center_x': .6, 'center_y': .81}
-            color: rgba (135, 135, 193, 255)
+            color: 135/255, 135/255, 193/255, 1
+
         MDFloatLayout:
             size_hint: .7, .07
             pos_hint: {"center_x": .5, "center_y": .73}
+
             TextInput:
                 id: nome_input
                 hint_text: "Nome de Usuário"
                 font_name: "MPoppins"
                 size_hint_y: .75
                 pos_hint: {"center_x": .43, "center_y": .69}
-                background_color: rgba (1, 1, 1, 0)
+                background_color: 1, 1, 1, 0
                 foreground_color: 0, 0, 0, 1
-                cursor_color: 0, 0, 59, 255
+                cursor_color: 0, 0, 59/255, 1
                 font_size: "14sp"
                 cursor_width: "2sp"
                 multiline: False
+
             MDFloatLayout:
                 pos_hint: {"center_x": .45, "center_y": 0}
                 size_hint_y: .03
-                md_bg_color: rgba (178, 178, 178, 255)
-       
+                md_bg_color: 178/255, 178/255, 178/255, 1
+
         MDFloatLayout:
             size_hint: .7, .07
             pos_hint: {"center_x": .5, "center_y": .63}
+
             TextInput:
                 id: cpf_input
                 hint_text: "CPF"
                 font_name: "MPoppins"
                 size_hint_y: .75
                 pos_hint: {"center_x": .43, "center_y": .59}
-                background_color: rgba (1, 1, 1, 0)
+                background_color: 1, 1, 1, 0
                 foreground_color: 0, 0, 0, 1
-                cursor_color: 0, 0, 59, 255
+                cursor_color: 0, 0, 59/255, 1
                 font_size: "14sp"
                 cursor_width: "2sp"
                 multiline: False
+
             MDFloatLayout:
                 pos_hint: {"center_x": .45, "center_y": 0}
                 size_hint_y: .03
-                md_bg_color: rgba (178, 178, 178, 255)
-        
+                md_bg_color: 178/255, 178/255, 178/255, 1
+
         MDFloatLayout:
             size_hint: .7, .07
             pos_hint: {"center_x": .5, "center_y": .53}
+
             TextInput:
                 id: email_input
                 hint_text: "Email"
                 font_name: "MPoppins"
                 size_hint_y: .75
                 pos_hint: {"center_x": .43, "center_y": .49}
-                background_color: rgba (1, 1, 1, 0)
+                background_color: 1, 1, 1, 0
                 foreground_color: 0, 0, 0, 1
-                cursor_color: 0, 0, 59, 255
+                cursor_color: 0, 0, 59/255, 1
                 font_size: "14sp"
                 cursor_width: "2sp"
                 multiline: False
+
             MDFloatLayout:
                 pos_hint: {"center_x": .45, "center_y": 0}
                 size_hint_y: .03
-                md_bg_color: rgba (178, 178, 178, 255)
-       
+                md_bg_color: 178/255, 178/255, 178/255, 1
+
         MDFloatLayout:
             size_hint: .7, .07
             pos_hint: {"center_x": .5, "center_y": .43}
+
             TextInput:
-                id: email_input
+                id: senha_input
                 hint_text: "Senha"
                 font_name: "MPoppins"
                 size_hint_y: .75
                 pos_hint: {"center_x": .43, "center_y": .39}
-                background_color: rgba(1, 1, 1, 0)
+                background_color: 1, 1, 1, 0
                 foreground_color: 0, 0, 0, 1
-                cursor_color: 0, 0, 59, 255
+                cursor_color: 0, 0, 59/255, 1
                 font_size: "14sp"
                 cursor_width: "2sp"
                 multiline: False
                 password: True
+
             MDFloatLayout:
                 pos_hint: {"center_x": .45, "center_y": 0}
                 size_hint_y: .03
-                md_bg_color: rgba(178, 178, 178, 255)
+                md_bg_color: 178/255, 178/255, 178/255, 1
+
         Button:
             text: "Cadastre-se"
             size_hint: .66, .065
             pos_hint: {"center_x": .5, "center_y": .3}
             background: 0, 0, 0, 0
             font_name: "BPoppins"
-            on_release:
-                root.manager.transition.direction = "left"
-                root.manager.current = "login"
+            on_release: root.fazer_cadastro()
             canvas.before:
                 Color:
-                    rgb: rgba(52, 0, 231, 255)
+                    rgb: 52/255, 0, 231/255, 1
                 RoundedRectangle:
                     size: self.size
                     pos: self.pos
                     radius: [5]
+
         MDLabel:
             text: "ou"
             color: rgba(52, 0, 231, 255)
@@ -319,14 +360,17 @@
             font_size: "13sp"
             font_name: "BPoppins"
             halign: "center"
+
         MDFloatLayout:
             md_bg_color: rgba(178, 178, 178, 255)
             size_hint: .3, .002
             pos_hint: {"center_x": .3, "center_y": .218}
+
         MDFloatLayout:
             md_bg_color: rgba(178, 178, 178, 255)
             size_hint: .3, .002
             pos_hint: {"center_x": .7, "center_y": .218}
+
         MDLabel:
             text: "Faça o login com:"
             font_name: "BPoppins"
@@ -334,6 +378,7 @@
             halign: "center"
             pos_hint: {"center_y": .16}
             color: rgba(135, 133, 193, 255)
+
         MDGridLayout:
             cols: 3
             size_hint: .4, .2
@@ -345,12 +390,14 @@
                 source: "images/face.png"
             Image:
                 source: "images/linke.png"
+
         MDLabel:
             text: "Já tem uma conta?"
             font_name: "BPoppins"
             font_size: "11sp"
             pos_hint: {"center_x": .68, "center_y": .04}
             color: rgba(135, 133, 193, 255)
+
         MDTextButton:
             text: "Faça o Login"
             font_name: "BPoppins"
@@ -361,39 +408,59 @@
                 fazer_cadastro(nome_input.text, email_input.text, senha_input.text)
 
 <PrincipalScreen>:
+    
     MDBoxLayout:
         orientation: 'vertical'
 
-    MDBottomNavigation:
-        panel_color: '#7f11e0'
-        mode: 'end'
+        MDBottomNavigation:
+            panel_color: '#7f11e0'
+            mode: 'end'
 
-        MDBottomNavigationItem:
-            name: 'Screen1'
-            text: 'Início'
-            icon: 'home'
+            MDBottomNavigationItem:
+                name: 'Screen1'
+                text: 'Início'
+                icon: 'home'
+                on_tab_release: app.switch_screen('principal')
 
-        MDBottomNavigationItem:
-            name: 'Screen2'
-            text: 'Favoritos'
-            icon: 'heart'
+            MDBottomNavigationItem:
+                name: 'Screen2'
+                text: 'Favoritos'
+                icon: 'heart'
+                on_tab_release: app.switch_screen('favoritos')
 
-        MDBottomNavigationItem:
-            name: 'Screen4'
-            text: 'Mensagens'
-            icon: 'send'
-
+            MDBottomNavigationItem:
+                name: 'Screen3'
+                text: 'Mensagens'
+                icon: 'send'
+        
+    MDFloatingActionButton:
+        icon: 'plus'
+        md_bg_color: '#43ff64d6'
+        pos_hint: {'center_x': .87, 'center_y': .22}
+        on_release:
+            root.manager.transition.direction = 'left'
+            root.manager.current = 'anuncio'
+   
     MDBoxLayout:
         orientation: 'vertical'
 
         MDTopAppBar:
-            title: 'Pais, Estado'
+            title: 'e-Scambo'
             md_bg_color: '#7f11e0'
             elevation: 10
             right_action_items: [['magnify'], ['bell']]
-            icon_right_color: [30, 226, 79, 1]
+            text_color: '#ffffffcc'
+            specific_text_color: '#43ff64d6'
             left_action_items: [["menu", lambda x: nav_drawer.set_state('open')]]
             elevation: 0
+    
+        BoxLayout:
+            id: anuncios_layout
+            orientation: 'vertical'
+            spacing: dp(10)
+            padding: dp(10)
+
+        
 
         MDLabel:
             text: 'Anúncio para Recife'
@@ -402,10 +469,6 @@
             halign: 'center'
             font_style: 'H5'
             theme_text_color: 'Primary'
-
-        MDBoxLayout:
-            orientation: 'vertical'
-            padding: dp(10)
 
             GridLayout:
                 cols: 4
@@ -418,6 +481,7 @@
                     size_hint: None, None
                     size: dp(60), dp(60)
                     pos_hint: {'center_x': 0.5, 'center_y': 1}
+
                     MDIconButton:
                         icon: 'gas-station'
                         user_font_size: '24sp'
@@ -431,6 +495,7 @@
                     size: dp(60), dp(60)
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
                     radius: [20,]
+
                     MDIconButton:
                         icon: 'bookshelf'
                         user_font_size: '24sp'
@@ -443,6 +508,7 @@
                     size_hint: None, None
                     size: dp(60), dp(60)
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+
                     MDIconButton:
                         icon: 'food-fork-drink'
                         theme_icon_color: "Custom"
@@ -455,6 +521,7 @@
                     size_hint: None, None
                     size: dp(60), dp(60)
                     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+
                     MDIconButton:
                         icon: 'steering'
                         user_font_size: '24sp'
@@ -464,20 +531,14 @@
     MDNavigationDrawer:
         id: nav_drawer
         orientation: 'vertical'
-
-        Image:
-            source: 'images/logo1.png'
-            size_hint: None, None
-            size: '100dp', '100dp'
-
-        MDLabel:
-            text: 'Nome do Usuario'
-            adaptive_height: True
-            halign: 'center'
-
+        
         MDNavigationDrawerMenu:
-            MDNavigationDrawerLabel:
-                text: "Menu"
+            MDNavigationDrawerHeader:
+                title: "Menu"
+                text: "Nome de Usuario"
+                source: 'images/logo1.png'
+                spacing: "10dp"
+                padding: ("12dp", "0dp", "0dp", "56dp")            
 
             MDNavigationDrawerItem:
                 icon: 'account-circle'
@@ -487,7 +548,9 @@
             MDNavigationDrawerItem:
                 icon: 'cog'
                 text: 'Configurações'
-                on_press: nav_drawer.set_state('close')
+                on_release: 
+                    root.manager.transition.direction = "left"
+                    root.manager.current = "configuracao"
 
             MDNavigationDrawerItem:
                 icon: 'pencil'
@@ -502,18 +565,9 @@
                 text: 'Ajuda'
                 on_press: nav_drawer.set_state('close')
 
-    MDFloatingActionButton:
-        name: 'Screen3'
-        icon: 'plus'
-        md_bg_color: '#43ff64d6'
-        pos_hint: {'center_x': .87, 'center_y': .2}
-        on_release:
-            root.manager.transition.direction = 'left'
-            root.manager.current = 'anuncio'
-
- 
 <AnuncioScreen>
     name: 'anuncio'
+
     MDFloatLayout:
         md_bg_color: 1, 1, 1, 1
         
@@ -526,60 +580,69 @@
             on_release:
                 root.manager.transition.direction = "right"
                 root.manager.current = "principal"
+                
+        MDFloatLayout:
+            size_hint: .8, .08
+            pos_hint: {"center_x": .5, "center_y": .85}
+
+            MDLabel:
+                text: "Título"
+                font_name: "MPoppins"
+                pos_hint: {"center_x": .5, "center_y": 1.2}
+                halign: "center"
+
+            TextInput:
+                id: titulo_input
+                font_name: "MPoppins"
+                size_hint: 1, .75
+                pos_hint: {"center_x": .5, "center_y": .5}
+                background_color: 1, 1, 1, 1
+                foreground_color: 0, 0, 0, 1
+                cursor_color: 0, 0, 59, 255
+                font_size: "14sp"
+                cursor_width: "2sp"
+                multiline: False
 
         MDFloatLayout:
             size_hint: .8, .08
-            pos_hint: {"center_x": .5, "center_y": .78}
+            pos_hint: {"center_x": .5, "center_y": .72}
+
             MDLabel:
                 text: "Informações"
                 font_name: "MPoppins"
                 pos_hint: {"center_x": .5, "center_y": 1.2}
                 halign: "center"
+
             TextInput:
+                id: informacoes_input
                 font_name: "MPoppins"
                 size_hint: 1, .75
                 pos_hint: {"center_x": .5, "center_y": .5}
                 background_color: 1, 1, 1, 1
-                foreground_color: rgba(0, 0, 0, 1)
-                cursor_color: rgba(0, 0, 59, 255)
+                foreground_color: 0, 0, 0, 1
+                cursor_color: 0, 0, 59, 255
                 font_size: "14sp"
                 cursor_width: "2sp"
                 multiline: False
 
         MDFloatLayout:
             size_hint: .8, .08
-            pos_hint: {"center_x": .5, "center_y": .67}
+            pos_hint: {"center_x": .5, "center_y": .60}
+
             MDLabel:
                 text: "Experiências"
                 font_name: "MPoppins"
                 pos_hint: {"center_x": .5, "center_y": 1.2}
                 halign: "center"
+                
             TextInput:
+                id: experiencias_input
                 font_name: "MPoppins"
                 size_hint: 1, .75
                 pos_hint: {"center_x": .5, "center_y": .5}
                 background_color: 1, 1, 1, 1
-                foreground_color: rgba(0, 0, 0, 1)
-                cursor_color: rgba(0, 0, 59, 255)
-                font_size: "14sp"
-                cursor_width: "2sp"
-                multiline: False
-
-        MDFloatLayout:
-            size_hint: .8, .08
-            pos_hint: {"center_x": .5, "center_y": .56}
-            MDLabel:
-                text: "Opcional: Formação Acadêmica"
-                font_name: "MPoppins"
-                pos_hint: {"center_x": .5, "center_y": 1.2}
-                halign: "center"
-            TextInput:
-                font_name: "MPoppins"
-                size_hint: 1, .75
-                pos_hint: {"center_x": .5, "center_y": .5}
-                background_color: 1, 1, 1, 1
-                foreground_color: rgba(0, 0, 0, 1)
-                cursor_color: rgba(0, 0, 59, 255)
+                foreground_color: 0, 0, 0, 1
+                cursor_color: 0, 0, 59, 255
                 font_size: "14sp"
                 cursor_width: "2sp"
                 multiline: False
@@ -587,37 +650,70 @@
         MDFloatLayout:
             size_hint: .8, .08
             pos_hint: {"center_x": .5, "center_y": .45}
+            
             MDLabel:
-                text: "Anexar Arquivo"
+                text: "Formação Acadêmica (opcional)"
                 font_name: "MPoppins"
-                pos_hint: {"center_x": .5, "center_y": 1.2}
+                pos_hint: {"center_x": .5, "center_y": 1.3}
                 halign: "center"
+                
             TextInput:
+                id: formacao_input
                 font_name: "MPoppins"
                 size_hint: 1, .75
-                pos_hint: {"center_x": .5, "center_y": .5}
+                pos_hint: {"center_x": .5, "center_y": .35}
                 background_color: 1, 1, 1, 1
-                foreground_color: rgba(0, 0, 0, 1)
-                cursor_color: rgba(0, 0, 59, 255)
+                foreground_color: 0, 0, 0, 1
+                cursor_color: 0, 0, 59, 255
                 font_size: "14sp"
                 cursor_width: "2sp"
                 multiline: False
 
         MDFloatLayout:
             size_hint: .8, .08
-            pos_hint: {"center_x": .5, "center_y": .34}
+            pos_hint: {"center_x": .5, "center_y": .30}
+
             MDLabel:
-                text: "Portfolio"
+                text: "Anexar Arquivo"
                 font_name: "MPoppins"
                 pos_hint: {"center_x": .5, "center_y": 1.2}
                 halign: "center"
+                
             TextInput:
+                id: anexo_input
                 font_name: "MPoppins"
                 size_hint: 1, .75
                 pos_hint: {"center_x": .5, "center_y": .5}
                 background_color: 1, 1, 1, 1
-                foreground_color: rgba(0, 0, 0, 1)
-                cursor_color: rgba(0, 0, 59, 255)
+                foreground_color: 0, 0, 0, 1
+                cursor_color: 0, 0, 59, 255
+                font_size: "14sp"
+                cursor_width: "2sp"
+                multiline: False
+
+            Button:
+                text: "Selecionar Arquivo"
+                size_hint: .5, .5
+                pos_hint: {"center_x": .5, "center_y": .5}
+                on_release: app.abrir_explorador_arquivos()
+        MDFloatLayout:
+            size_hint: .8, .08
+            pos_hint: {"center_x": .5, "center_y": .17}
+            
+            MDLabel:
+                text: "Portfólio"
+                font_name: "MPoppins"
+                pos_hint: {"center_x": .5, "center_y": 1.2}
+                halign: "center"
+                
+            TextInput:
+                id: portfolio_input
+                font_name: "MPoppins"
+                size_hint: 1, .75
+                pos_hint: {"center_x": .5, "center_y": .5}
+                background_color: 1, 1, 1, 1
+                foreground_color: 0, 0, 0, 1
+                cursor_color: 0, 0, 59, 255
                 font_size: "14sp"
                 cursor_width: "2sp"
                 multiline: False
@@ -625,16 +721,76 @@
     Button:
         text: "ANUNCIAR"
         size_hint: .66, .065
-        pos_hint: {"center_x": .5, "center_y": .22}
+        pos_hint: {"center_x": .5, "center_y": .06}
         background: 0, 0, 0, 0
         font_name: "BPoppins"
         on_release:
-            root.manager.transition.direction = "left"
-            root.manager.current = "principal"
+            root.anunciar()
         canvas.before:
+
             Color:
                 rgb: rgba(52, 0, 231, 255)
+
             RoundedRectangle:
                 size: self.size
                 pos: self.pos
                 radius: [5]
+
+<AnuncioDetalhesScreen>:
+    name: 'anuncio_detalhes'
+
+    BoxLayout:
+        orientation: 'vertical'
+        padding: dp(10)
+        spacing: dp(10)
+
+        MDLabel:
+            id: detalhes_label
+            text: 'Detalhes do Anúncio'
+            halign: 'center'
+            theme_text_color: 'Primary'
+            size_hint_y: None
+            height: self.texture_size[1]
+        
+        MDRaisedButton:
+            text: 'Voltar'
+            pos_hint: {'center_x': 0.5}
+            on_release:
+                root.manager.transition.direction = 'right'
+                root.manager.current = 'principal'
+
+
+<ConfiguracaoScreen>
+    name: 'configuracao'
+
+    MDFloatLayout:
+        md_bg_color: 1, 1, 1, 1
+
+        MDIconButton:
+            icon: "arrow-left"
+            pos_hint: {"center_y": .95}
+            user_font_size: "30sp"
+            theme_text_color: "Custom"
+            text_color: 26/255, 24/255, 58/255, 1
+            on_release:
+                root.manager.transition.direction = "right"
+                root.manager.current = "principal"
+
+        MDIconButton:
+            icon: "lock"
+
+<FavoritosScreen>
+    name: 'favoritos'
+
+    MDFloatLayout:
+        md_bg_color: 1, 1, 1, 1
+
+        MDIconButton:
+            icon: "arrow-left"
+            pos_hint: {"center_y": .95}
+            user_font_size: "30sp"
+            theme_text_color: "Custom"
+            text_color: 26/255, 24/255, 58/255, 1
+            on_release:
+                root.manager.transition.direction = "right"
+                root.manager.current = "principal"
