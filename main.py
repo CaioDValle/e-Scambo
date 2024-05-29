@@ -9,6 +9,9 @@ from kivymd.uix.card import MDCard
 from kivymd.uix.button import MDRaisedButton
 from kivymd.uix.label import MDLabel
 from tkinter import Tk, filedialog
+from kivy.uix.popup import Popup
+from kivy.uix.filechooser import FileChooserIconView
+from kivy.properties import ObjectProperty, BooleanProperty , StringProperty
 
 Window.size = (310, 580)
 
@@ -17,17 +20,18 @@ LabelBase.register(name='BPoppins', fn_regular="C:\\Users\\Micro\\Downloads\\Pop
 
 class InicioScreen(Screen):
     pass
-
 class LoginScreen(Screen):
     def fazer_login(self):
         email = self.ids.email_input.text
         senha = self.ids.senha_input.text
-        if fazer_login(email, senha):
+        sucesso, nome_usuario = fazer_login(email, senha)
+        if sucesso:
             print("Login bem-sucedido!")
             self.manager.current = "principal"
+            app = MDApp.get_running_app()
+            app.user_name = nome_usuario
         else:
             print("Credenciais inválidas. Verifique seu email e senha.")
-
 class CadastroScreen(Screen):
     def fazer_cadastro(self):
         nome = self.ids.nome_input.text
@@ -39,48 +43,51 @@ class CadastroScreen(Screen):
             self.manager.current = "login"
 
 class PrincipalScreen(Screen):
-    def add_anuncio(self, titulo, informacoes, imagem, portfolio):
-        card = MDCard(orientation='vertical', size_hint=(0.9, None), height=300, pos_hint={'center_x': 0.5})
-        
-        card.add_widget(imagem)
-        card.add_widget(MDLabel(text=titulo, theme_text_color="Primary", size_hint_y=None, height=40, halign='center'))
-        card.add_widget(MDLabel(text=informacoes, theme_text_color="Secondary", size_hint_y=None, height=40, halign='center'))
-        
-        def on_ler_mais(instance):
-            self.manager.current = 'anuncio_detalhes'
-            anuncio_detalhes = self.manager.get_screen('anuncio_detalhes')
-            anuncio_detalhes.ids.detalhes_label.text = f"Título: {titulo}\nInformações: {informacoes}\nPortfólio: {portfolio}"
-        
-        ler_mais_button = MDRaisedButton(text='Ler mais', pos_hint={'center_x': 0.5})
-        ler_mais_button.bind(on_release=on_ler_mais)
-        
-        card.add_widget(ler_mais_button)
-        self.ids.anuncios_layout.add_widget(card)
+    has_content = BooleanProperty(False)  # Propriedade para controlar se há conteúdo postado ou não
+
+    def update_anuncio(self, titulo, informacoes):
+        self.ids.titulo_label.text = titulo
+        self.ids.informacoes_label.text = informacoes
+        self.has_content = True  # Atualiza a propriedade para indicar que há conteúdo postado
+
 
 class AnuncioScreen(Screen):
+    titulo_input = ObjectProperty(None)
+    informacoes_input = ObjectProperty(None)
+    experiencias_input = ObjectProperty(None)
+    formacao_input = ObjectProperty(None)
+    anexo_input = ObjectProperty(None)
+    portfolio_input = ObjectProperty(None)
+
     def anunciar(self):
-        titulo = self.ids.titulo_input.text
-        informacoes = self.ids.informacoes_input.text
-        portfolio = self.ids.portfolio_input.text
+        titulo = self.titulo_input.text
+        informacoes = self.informacoes_input.text
+        experiencias = self.experiencias_input.text
+        formacao = self.formacao_input.text
+        anexo = self.anexo_input.text
+        portfolio = self.portfolio_input.text
 
-        root = Tk()
-        root.withdraw()  
-        arquivo = filedialog.askopenfilename()
+        principal_screen = self.manager.get_screen('principal')
+        detalhes_screen = self.manager.get_screen('anuncio_detalhes')
 
-        if arquivo:
-            self.manager.get_screen('principal').add_anuncio(titulo, informacoes, ImagemArquivo(arquivo), portfolio)
-            self.manager.current = 'principal'
-        else:
-            print("Nenhum arquivo selecionado.")
+        principal_screen.update_anuncio(titulo, informacoes)
+        detalhes_screen.update_detalhes(titulo, informacoes, experiencias, formacao, anexo, portfolio)
 
-class ImagemArquivo(BoxLayout):
-    def __init__(self, arquivo, **kwargs):
-        super().__init__(**kwargs)
-        self.orientation = 'vertical'
-        self.size_hint_y = None
-        self.height = 200
-        self.ids.imagem.source = arquivo
+        self.manager.current = 'principal'
+        
+    def abrir_explorador_arquivos(self):
+        file_chooser = FileChooserIconView()
+        file_chooser.bind(on_selection=self.selecionar_arquivo_callback)  # Adiciona o evento de seleção
+        self.popup = Popup(title="Selecione um arquivo", content=file_chooser, size_hint=(None, None), size=(600, 400))
+        self.popup.open()
 
+    def selecionar_arquivo_callback(self, instance, selection):  # Recebe a seleção do arquivo
+        if selection:
+            self.anexo_input.text = selection[0]
+            self.popup.dismiss()
+
+            detalhes_screen = self.manager.get_screen('anuncio_detalhes')
+            detalhes_screen.ids.detalhes_anexo.text = self.anexo_input.text
 class ConfiguracaoScreen(Screen):
     pass
 
@@ -94,10 +101,20 @@ class MensagensScreen(Screen):
     pass
 
 class AnuncioDetalhesScreen(Screen):
-    pass
+    def update_detalhes(self, titulo, informacoes, experiencias, formacao, anexo, portfolio):
+        self.ids.detalhes_titulo.text = titulo
+        self.ids.detalhes_informacoes.text = informacoes
+        self.ids.detalhes_experiencias.text = experiencias
+        self.ids.detalhes_formacao.text = formacao
+        self.ids.detalhes_anexo.text = anexo
+        self.ids.detalhes_portfolio.text = portfolio
+
 
 class eScambo(MDApp):
+    user_name = StringProperty("Nome de Usuario")
     def build(self):
+        self.theme_cls.material_style = 'M3'
+        self.theme_cls.theme_style = 'Dark' 
         self.theme_cls.primary_palette = 'Green'
         Builder.load_file('telas.kv')
         sm = ScreenManager()
