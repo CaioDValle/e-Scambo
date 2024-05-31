@@ -1,3 +1,10 @@
+ScreenManager:
+   
+    SearchScreen:
+    PrincipalScreen:
+    AnuncioScreen:
+    AnuncioDetalhesScreen:
+
 <InicioScreen>:
     name: 'inicio'
 
@@ -363,23 +370,50 @@
             on_release:
                 fazer_cadastro(nome_input.text, email_input.text, senha_input.text)
 
+<SearchScreen>:
+    name: "search"
+   
+    MDBoxLayout:
+        orientation: 'vertical'
+        spacing: dp(10)
+        padding: dp(10)
+        MDTextField:
+            id: search_field
+            hint_text: "Buscar Anúncios"
+            size_hint_x: .8
+            pos_hint: {"center_x": .5, "center_y": .7}
+        MDRaisedButton:
+            text: "Buscar"
+            size_hint: .6, .06
+            pos_hint: {"center_x": .5, "center_y": .6}
+            on_release: root.search()
+        ScrollView:
+            MDBoxLayout:
+                id: result_label
+                orientation: 'vertical'
+                size_hint_y: None
+                height: self.minimum_height
+                pos_hint: {'center_x': .5, 'center_y': .4}
+
 <PrincipalScreen>:
     name: 'principal'
+   
     MDBoxLayout:
         orientation: 'vertical'
 
         MDTopAppBar:
             title: 'e-Scambo'
             elevation: 10
-            right_action_items: [['magnify'], ['bell']]
+            right_action_items: [['magnify', lambda x: app.change_screen('search')], ['bell']]
             left_action_items: [["menu", lambda x: nav_drawer.set_state('open')]]
-            elevation: 0
-        MDBoxLayout
+
+        MDBoxLayout:
             orientation: 'vertical'
             padding: dp(10)
             spacing: dp(10)
             size_hint_y: 1
             height: self.minimum_height
+
             MDLabel:
                 text: "Anuncios Para Recife"
                 font_name: 'MPoppins'
@@ -387,10 +421,9 @@
                 theme_text_color: 'Primary'
                 size_hint_y: 1
                 height: self.texture_size[1]
-                halign: 'center'
+                halign: 'center'    
+
         ScrollView:
-            height: self.parent.height if root.has_content else 0  # Ajusta a altura com base na propriedade has_content
-            opacity: 1 if root.has_content else 0
             MDBoxLayout:
                 orientation: 'vertical'
                 padding: dp(10)
@@ -424,26 +457,23 @@
                     MDRaisedButton:
                         text: 'Ver Mais'
                         pos_hint: {'center_x': 0.5,'center_y': .1}
-                        on_release:
-                            root.manager.transition.direction = 'left'
-                            root.manager.current = 'anuncio_detalhes'
-                    MDIconButton:
-                        icon: "chat"
-                        pos_hint: {"center_x": .9}                   
+                        on_release: root.manager.transition.direction = 'left'; root.manager.current = 'anuncio_detalhes'
+
         MDBottomNavigation:
             mode: 'end'
+            md_bg_color: 118/255, 19/255, 167/255, 0.8/1
 
             MDBottomNavigationItem:
                 name: 'Screen1'
                 text: 'Início'
                 icon: 'home'
-                on_tab_release: app.switch_screen('principal')
+                on_tab_release: app.change_screen('principal')
 
             MDBottomNavigationItem:
                 name: 'Screen2'
                 text: 'Favoritos'
                 icon: 'heart'
-                on_tab_release: app.switch_screen('favoritos')
+                on_tab_release: app.change_screen('favoritos')
 
             MDBottomNavigationItem:
                 name: 'Screen3'
@@ -464,7 +494,7 @@
         MDNavigationDrawerMenu:
             MDNavigationDrawerHeader:
                 title: "Menu"
-                text: app.user_name
+                text: 'A'
                 source: 'images/logo1.png'
                 spacing: "10dp"
                 padding: ("12dp", "0dp", "0dp", "56dp")
@@ -494,6 +524,18 @@
                 text: 'Ajuda'
                 on_press: nav_drawer.set_state('close')
 
+
+                
+<FavoritosScreen>
+
+    MDFloatLayout:
+
+        MDIconButton:
+            icon: "arrow-left"
+            pos_hint: {"center_y": .95}
+            user_font_size: "30sp"
+            theme_text_color: "Custom"
+            on_release: app.change_screen('principal')
 
 <AnuncioScreen>:
     name: 'anuncio'
@@ -650,77 +692,79 @@
                 size: self.size
                 pos: self.pos
                 radius: [5]
+
 <AnuncioDetalhesScreen>:
     name: 'anuncio_detalhes'
-    
-    MDFloatLayout:
-        MDIconButton:
-            icon: "arrow-left"
-            pos_hint: {"center_y": .95}
-            user_font_size: "30sp"
-            theme_text_color: "Custom"
-            on_release:
-                root.manager.transition.direction = "right"
-                root.manager.current = "principal"
-    BoxLayout:
+
+    MDBoxLayout:
+        orientation: 'vertical'
+
+        MDTopAppBar:
+            title: 'Detalhes do Anúncio'
+            elevation: 10
+
+    MDBoxLayout:
         orientation: 'vertical'
         padding: dp(10)
         spacing: dp(10)
+        size_hint_y: 1
+        height: self.minimum_height
+        pos_hint: {'center_y': .6}
 
-        MDTopAppBar:
-            id: top_bar
-            title: 'Detalhes do Anúncio'
-            elevation: 10
-        
-        ScrollView:
-            MDBoxLayout:
-                orientation: 'vertical'
-                height: self.minimum_height
+        MDLabel:
+            id: detalhes_titulo
+            text: 'Título do Anúncio'
+            theme_text_color: 'Primary'
+            size_hint_y: None
+            height: self.texture_size[1]
+            halign: 'center'
+            font_size: "30sp"        
 
-                MDLabel:
-                    id: detalhes_titulo
-                    text: ''
-                    theme_text_color: 'Primary'
-                    size_hint_y: None
-                    height: self.texture_size[1]
-                    halign: 'center'
+        MDSeparator:
+            height: dp(10)
 
-                MDLabel:
-                    id: detalhes_informacoes
-                    text: ''
-                    theme_text_color: 'Secondary'
-                    size_hint_y: None
-                    height: self.texture_size[1]
-                    halign: 'center'
-
-                MDLabel:
-                    id: detalhes_experiencias
-                    text: ''
-                    theme_text_color: 'Secondary'
-                    size_hint_y: None
-                    height: self.texture_size[1]
-                    halign: 'center'
-
-                MDLabel:
-                    id: detalhes_formacao
-                    text: ''
-                    theme_text_color: 'Secondary'
-                    size_hint_y: None
-                    height: self.texture_size[1]
-                    halign: 'center'
-
-                MDLabel:
-                    id: detalhes_anexo
-                    text: ''
-                    theme_text_color: 'Secondary'
-                    size_hint_y: None
-                    height: self.texture_size[1]
-                    halign: 'center'
-
-                MDLabel:
-                    id: detalhes_portfolio
-                    text: ''
-                    theme_text_color: 'Secondary'
-                    size_hint_y: None
-                    height: self.texture_size[1]
-                    halign: 'center'
+    MDBoxLayout:   
+        orientation: 'vertical'
+        size_hint_y: 1
+        height: self.minimum_height
+        pos_hint: {'center_y': .3}
+                     
+        MDLabel:
+            id: detalhes_informacoes
+            text: 'Informações do Anúncio'
+            theme_text_color: 'Secondary'
+            size_hint_y: None
+            height: self.texture_size[1]
+            halign: 'center' 
+                    
+        MDLabel:
+            id: detalhes_experiencias
+            text: 'Experiências Relevantes'
+            theme_text_color: 'Secondary'
+            size_hint_y: None
+            height: self.texture_size[1]
+            halign: 'center'
+                    
+        MDLabel:
+            id: detalhes_formacao
+            text: 'Formação Acadêmica'
+            theme_text_color: 'Secondary'
+            size_hint_y: None
+            height: self.texture_size[1]
+            halign: 'center' 
+                    
+        MDLabel:
+            id: detalhes_anexo
+            text: 'Anexos'
+            theme_text_color: 'Secondary'
+            size_hint_y: None
+            height: self.texture_size[1]
+            halign: 'center'
+                        
+        MDLabel:
+            id: detalhes_portfolio
+            text: 'Portfólio'
+            theme_text_color: 'Secondary'
+            size_hint_y: None
+            height: self.texture_size[1]
+            halign: 'center'

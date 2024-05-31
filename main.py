@@ -3,15 +3,12 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 from kivymd.app import MDApp
 from kivy.core.text import LabelBase
 from kivy.core.window import Window
-from backend import fazer_cadastro, fazer_login  # Importe a função fazer_login do backend
-from kivy.uix.boxlayout import BoxLayout
-from kivymd.uix.card import MDCard
-from kivymd.uix.button import MDRaisedButton
-from kivymd.uix.label import MDLabel
-from tkinter import Tk, filedialog
 from kivy.uix.popup import Popup
-from kivy.uix.filechooser import FileChooserIconView
-from kivy.properties import ObjectProperty, BooleanProperty , StringProperty
+from kivy.properties import ObjectProperty, BooleanProperty, StringProperty
+from kivy.utils import platform
+import webbrowser
+from backend import fazer_cadastro, fazer_login, criar_anuncio, search_anuncios, db, firestore
+from kivymd.uix.button import MDRaisedButton
 
 Window.size = (310, 580)
 
@@ -20,6 +17,7 @@ LabelBase.register(name='BPoppins', fn_regular="C:\\Users\\Micro\\Downloads\\Pop
 
 class InicioScreen(Screen):
     pass
+
 class LoginScreen(Screen):
     def fazer_login(self):
         email = self.ids.email_input.text
@@ -32,6 +30,7 @@ class LoginScreen(Screen):
             app.user_name = nome_usuario
         else:
             print("Credenciais inválidas. Verifique seu email e senha.")
+
 class CadastroScreen(Screen):
     def fazer_cadastro(self):
         nome = self.ids.nome_input.text
@@ -41,14 +40,61 @@ class CadastroScreen(Screen):
 
         if fazer_cadastro(nome, cpf, email, senha):
             self.manager.current = "login"
+            
 
 class PrincipalScreen(Screen):
-    has_content = BooleanProperty(False)  # Propriedade para controlar se há conteúdo postado ou não
+    has_content = BooleanProperty(False)
+
+    def on_enter(self, *args):
+        super(PrincipalScreen, self).on_enter(*args)
+        self.exibir_ultimo_anuncio()
 
     def update_anuncio(self, titulo, informacoes):
         self.ids.titulo_label.text = titulo
         self.ids.informacoes_label.text = informacoes
-        self.has_content = True  # Atualiza a propriedade para indicar que há conteúdo postado
+        self.has_content = True
+
+    def exibir_ultimo_anuncio(self):
+        query = db.collection('anuncios').order_by('timestamp', direction=firestore.Query.DESCENDING).limit(1).get()
+
+        if query:
+            ultimo_anuncio = query[0].to_dict()
+            self.update_anuncio(ultimo_anuncio.get('titulo', ''), ultimo_anuncio.get('informacoes', ''))
+        else:
+            self.ids.titulo_label.text = 'Nenhum anúncio encontrado'
+            self.ids.informacoes_label.text = ''
+            self.has_content = False
+
+class SearchScreen(Screen):
+    def search(self):
+        query = self.ids.search_field.text  
+        results = search_anuncios(query) 
+        result_text = "\n".join(results)  
+        self.ids.result_label.text = result_text
+
+        self.ids.result_label.clear_widgets()
+
+        for result in results:
+            button = MDRaisedButton(text=result, size_hint=(None, None), size=(400, 50))
+            button.bind(on_release=lambda btn: self.show_anuncio_details(btn.text))
+            self.ids.result_label.add_widget(button)
+
+    def get_detalhes_anuncio(self, anuncio):
+
+        detalhes_anuncio = {
+            'titulo': anuncio,
+            'informacoes': 'Informações detalhadas sobre ' + anuncio,
+            'experiencias': 'Experiências relevantes para ' + anuncio,
+            'formacao': 'Formação acadêmica relevante para ' + anuncio,
+            'anexo': 'Anexos relevantes para ' + anuncio,
+            'portfolio': 'Portfólio relevante para ' + anuncio
+        }
+        return detalhes_anuncio
+
+    def show_anuncio_details(self, anuncio):
+        detalhes_anuncio = self.get_detalhes_anuncio(anuncio)  
+        self.manager.get_screen('anuncio_detalhes').update_detalhes(**detalhes_anuncio)
+        self.manager.current = 'anuncio_detalhes'
 
 
 class AnuncioScreen(Screen):
@@ -59,35 +105,53 @@ class AnuncioScreen(Screen):
     anexo_input = ObjectProperty(None)
     portfolio_input = ObjectProperty(None)
 
+
+        
     def anunciar(self):
-        titulo = self.titulo_input.text
-        informacoes = self.informacoes_input.text
-        experiencias = self.experiencias_input.text
-        formacao = self.formacao_input.text
-        anexo = self.anexo_input.text
-        portfolio = self.portfolio_input.text
+    
+        titulo = self.ids.titulo_input.text
+        informacoes = self.ids.informacoes_input.text
+        experiencias = self.ids.experiencias_input.text
+        formacao = self.ids.formacao_input.text
+        anexo = self.ids.anexo_input.text
+        portfolio = self.ids.portfolio_input.text
 
-        principal_screen = self.manager.get_screen('principal')
-        detalhes_screen = self.manager.get_screen('anuncio_detalhes')
 
-        principal_screen.update_anuncio(titulo, informacoes)
-        detalhes_screen.update_detalhes(titulo, informacoes, experiencias, formacao, anexo, portfolio)
+        novo_anuncio = {
+            'titulo': titulo,
+            'informacoes': informacoes,
+            'experiencias': experiencias,
+            'formacao': formacao,
+            'anexo': anexo,
+            'portfolio': portfolio
+        }
+
+        db.collection('anuncios').add(novo_anuncio)
+
+
+        self.ids.titulo_input.text = ''
+        self.ids.informacoes_input.text = ''
+        self.ids.experiencias_input.text = ''
+        self.ids.formacao_input.text = ''
+        self.ids.anexo_input.text = ''
+        self.ids.portfolio_input.text = ''
 
         self.manager.current = 'principal'
         
     def abrir_explorador_arquivos(self):
         file_chooser = FileChooserIconView()
-        file_chooser.bind(on_selection=self.selecionar_arquivo_callback)  # Adiciona o evento de seleção
+        file_chooser.bind(on_selection=self.selecionar_arquivo_callback)
         self.popup = Popup(title="Selecione um arquivo", content=file_chooser, size_hint=(None, None), size=(600, 400))
         self.popup.open()
 
-    def selecionar_arquivo_callback(self, instance, selection):  # Recebe a seleção do arquivo
+    def selecionar_arquivo_callback(self, instance, selection):
         if selection:
             self.anexo_input.text = selection[0]
             self.popup.dismiss()
 
             detalhes_screen = self.manager.get_screen('anuncio_detalhes')
             detalhes_screen.ids.detalhes_anexo.text = self.anexo_input.text
+
 class ConfiguracaoScreen(Screen):
     pass
 
@@ -100,6 +164,7 @@ class NotificacoesScreen(Screen):
 class MensagensScreen(Screen):
     pass
 
+
 class AnuncioDetalhesScreen(Screen):
     def update_detalhes(self, titulo, informacoes, experiencias, formacao, anexo, portfolio):
         self.ids.detalhes_titulo.text = titulo
@@ -109,12 +174,11 @@ class AnuncioDetalhesScreen(Screen):
         self.ids.detalhes_anexo.text = anexo
         self.ids.detalhes_portfolio.text = portfolio
 
-
 class eScambo(MDApp):
     user_name = StringProperty("Nome de Usuario")
     def build(self):
         self.theme_cls.material_style = 'M3'
-        self.theme_cls.theme_style = 'Dark' 
+        self.theme_cls.theme_style = 'Dark'
         self.theme_cls.primary_palette = 'Green'
         Builder.load_file('telas.kv')
         sm = ScreenManager()
@@ -128,7 +192,18 @@ class eScambo(MDApp):
         sm.add_widget(NotificacoesScreen(name='notificacoes'))
         sm.add_widget(MensagensScreen(name='mensagens'))
         sm.add_widget(AnuncioDetalhesScreen(name='anuncio_detalhes'))
+        sm.add_widget(SearchScreen(name='search'))
         return sm
+
+    def change_screen(self, screen_name):
+        self.root.current = screen_name
+    
+    def open_whatsapp(self):
+        if platform == "android":
+            link = "https://wa.me/81994183346"
+        else:
+            link = "https://web.whatsapp.com/send?phone=81994183346"
+        webbrowser.open(link)
 
 if __name__ == '__main__':
     eScambo().run()
